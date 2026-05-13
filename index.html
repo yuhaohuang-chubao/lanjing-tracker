@@ -6,21 +6,25 @@
 <title>加分任務 · 蘭境挑戰追蹤</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --moss: #3d4f3a;
-    --moss-deep: #2a3829;
-    --moss-light: #5d7158;
-    --bone: #f4ede0;
-    --bone-warm: #ebe2d1;
-    --clay: #b8654a;
-    --clay-soft: #d4886e;
-    --ink: #1a1f1a;
-    --gold: #b89968;
-    --mist: #d9d5c8;
-    --leaf: #7a8c5c;
-    --shadow: rgba(26, 31, 26, 0.08);
+    /* Direction A: Botanical Fresh */
+    --moss: #3D9970;          /* 主色 草本綠 */
+    --moss-deep: #2D7A55;     /* 加深綠（標題/文字） */
+    --moss-light: #6BAA8A;    /* 淺綠（次要） */
+    --bone: #FAFAF7;          /* 主背景 米白 */
+    --bone-warm: #F2F4EF;     /* 第二層背景 微綠米白 */
+    --clay: #FF6B47;          /* 強調 珊瑚橘 */
+    --clay-soft: #FFA98F;     /* 淺珊瑚 */
+    --ink: #2D3436;           /* 主文字 深炭 */
+    --gold: #FF8A6A;          /* 警示/分數重點，與 clay 系列搭配 */
+    --mist: #E8EDE9;           /* 分隔線/淺灰綠 */
+    --leaf: #3D9970;           /* 對齊主色綠 */
+    --soft: #95A5A6;           /* 次要文字灰 */
+    --warm-bg: #FFF4E6;        /* 達標卡片背景 淡杏 */
+    --shadow: rgba(45, 122, 85, 0.08);
+    --shadow-strong: rgba(45, 52, 54, 0.10);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -28,31 +32,24 @@
   html, body {
     background: var(--bone);
     color: var(--ink);
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-weight: 400;
     line-height: 1.6;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-image:
-      radial-gradient(ellipse at top left, rgba(122, 140, 92, 0.12), transparent 50%),
-      radial-gradient(ellipse at bottom right, rgba(184, 101, 74, 0.08), transparent 50%);
+      radial-gradient(ellipse at top left, rgba(61, 153, 112, 0.10), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgba(255, 107, 71, 0.06), transparent 55%);
     background-attachment: fixed;
     min-height: 100vh;
   }
 
-  /* Grain texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    pointer-events: none;
-    opacity: 0.4;
-    z-index: 1;
-    mix-blend-mode: multiply;
-  }
+  /* Grain texture removed for clean modern look */
+  body::before { display: none; }
 
   .wrap { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; padding: 0 18px 80px; }
 
@@ -65,68 +62,71 @@
   }
 
   .brand-mark {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 13px;
-    letter-spacing: 0.15em;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.22em;
     color: var(--clay);
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   h1 {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 900;
-    font-size: 34px;
-    letter-spacing: 0.02em;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.02em;
     color: var(--moss-deep);
-    line-height: 1.1;
+    line-height: 1.15;
   }
 
   h1 .accent {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 400;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
     color: var(--clay);
-    font-size: 30px;
+    font-size: 26px;
+    letter-spacing: -0.01em;
   }
 
   .meta {
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-size: 12px;
-    color: var(--moss-light);
-    margin-top: 8px;
-    letter-spacing: 0.05em;
+    color: var(--soft);
+    margin-top: 10px;
+    letter-spacing: 0.04em;
   }
 
   /* USER PICKER */
   .user-bar {
     background: var(--moss-deep);
-    color: var(--bone);
-    padding: 14px 16px;
-    border-radius: 2px;
+    color: #fff;
+    padding: 16px 18px;
+    border-radius: 6px;
     margin-bottom: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
-    box-shadow: 0 4px 18px var(--shadow);
+    box-shadow: 0 4px 20px var(--shadow);
   }
 
   .user-bar label {
-    font-size: 11px;
-    letter-spacing: 0.15em;
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
   }
 
   .user-bar select, .user-bar input {
     background: transparent;
     border: none;
-    border-bottom: 1px solid var(--gold);
-    color: var(--bone);
-    font-family: inherit;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+    font-weight: 500;
     font-size: 16px;
     padding: 4px 6px;
     outline: none;
@@ -136,89 +136,143 @@
   .user-bar select option { background: var(--moss-deep); }
 
   .user-score {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
     font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.02em;
+    color: var(--clay-soft);
+    letter-spacing: -0.02em;
+    text-align: right;
   }
   .user-score small {
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 10px;
     letter-spacing: 0.15em;
-    color: var(--bone);
+    color: rgba(255, 255, 255, 0.6);
     display: block;
-    margin-bottom: -4px;
+    margin-bottom: 0;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
   }
 
   /* TEAM BOARD */
   .team-board {
-    background: var(--bone-warm);
+    background: #fff;
     border: 1px solid var(--mist);
-    padding: 18px;
+    padding: 20px;
     margin-bottom: 28px;
     position: relative;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px var(--shadow);
   }
   .team-board::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--moss-deep), var(--leaf), var(--clay));
+    background: linear-gradient(90deg, var(--moss), var(--clay));
+    border-radius: 6px 6px 0 0;
   }
 
   .team-board h2 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 15px;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+    font-size: 13px;
     font-weight: 700;
     color: var(--moss-deep);
-    letter-spacing: 0.1em;
-    margin-bottom: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 10px;
   }
   .team-board h2::before {
-    content: '✦';
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--clay);
+    border-radius: 50%;
+  }
+  .team-total {
+    margin-left: auto;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+  }
+  .team-total .label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    color: var(--soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .team-total .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    font-weight: 600;
     color: var(--clay);
-    font-size: 12px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .team-total .unit {
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    color: var(--soft);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
   }
 
   .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
-    gap: 8px;
+    gap: 10px;
   }
 
   .team-cell {
-    background: var(--bone);
-    padding: 10px 8px;
+    background: var(--bone-warm);
+    padding: 12px 8px;
     text-align: center;
-    border-left: 2px solid var(--leaf);
-    transition: transform 0.2s;
+    border-radius: 6px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid transparent;
+  }
+  .team-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
   }
   .team-cell.self {
-    border-left-color: var(--clay);
-    background: linear-gradient(180deg, var(--bone) 0%, rgba(184, 101, 74, 0.08) 100%);
+    background: linear-gradient(180deg, #FFF4E6 0%, #FFE8D9 100%);
+    border-color: var(--clay-soft);
   }
   .team-cell .name {
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-size: 12px;
     color: var(--moss-deep);
-    font-weight: 500;
-    margin-bottom: 2px;
+    font-weight: 600;
+    margin-bottom: 4px;
   }
   .team-cell .score {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 22px;
     font-weight: 600;
     color: var(--moss-deep);
     line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .team-cell.self .score {
+    color: var(--clay);
   }
   .team-cell .score-label {
+    font-family: 'Manrope', sans-serif;
     font-size: 9px;
-    letter-spacing: 0.1em;
-    color: var(--moss-light);
+    letter-spacing: 0.15em;
+    color: var(--soft);
     text-transform: uppercase;
-    margin-top: 2px;
+    margin-top: 4px;
+    font-weight: 600;
   }
 
   /* CATEGORY */
@@ -235,38 +289,46 @@
     border-bottom: 1px dashed var(--moss-light);
   }
   .category-head .num {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
     color: var(--clay);
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1;
+    letter-spacing: 0.05em;
+    background: #FFE8D9;
+    padding: 5px 9px;
+    border-radius: 4px;
   }
   .category-head .title {
-    font-family: 'Noto Serif TC', serif;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 19px;
     color: var(--moss-deep);
-    letter-spacing: 0.05em;
+    letter-spacing: -0.01em;
   }
   .category-head .en {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 12px;
-    color: var(--moss-light);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--soft);
     margin-left: auto;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
 
   /* TASK CARD */
   .task {
     background: #fff;
-    margin-bottom: 14px;
-    box-shadow: 0 2px 12px var(--shadow);
+    margin-bottom: 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px var(--shadow);
     overflow: hidden;
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1px solid var(--mist);
   }
-  .task:hover { box-shadow: 0 4px 20px rgba(26, 31, 26, 0.12); }
+  .task:hover {
+    box-shadow: 0 4px 16px var(--shadow);
+  }
 
   .task-head {
     padding: 14px 16px;
@@ -275,43 +337,49 @@
     align-items: center;
     gap: 12px;
     user-select: none;
-    background: linear-gradient(180deg, #fff 0%, var(--bone-warm) 100%);
-    border-left: 3px solid var(--leaf);
+    background: #fff;
+    border-left: 3px solid var(--moss);
   }
 
   .task-name {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 700;
-    font-size: 16px;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
     color: var(--moss-deep);
     flex: 1;
+    letter-spacing: -0.005em;
   }
   .task-name .diff {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 11px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
     color: var(--clay);
-    margin-left: 6px;
-    letter-spacing: 0.1em;
+    margin-left: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: #FFE8D9;
+    padding: 2px 7px;
+    border-radius: 4px;
   }
 
   .task-progress {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
     color: var(--moss-deep);
     font-weight: 600;
     white-space: nowrap;
+    letter-spacing: -0.02em;
   }
   .task-progress small {
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: 10px;
-    color: var(--moss-light);
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+    font-size: 11px;
+    color: var(--soft);
     margin-left: 2px;
-    letter-spacing: 0.05em;
+    font-weight: 500;
   }
 
   .toggle-icon {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 22px;
     color: var(--clay);
     transition: transform 0.3s, background 0.2s;
@@ -342,59 +410,68 @@
 
   .task-desc {
     font-size: 13px;
-    color: var(--moss-light);
+    color: var(--ink);
     margin: 10px 0 14px;
-    padding: 10px 12px;
-    background: var(--bone);
-    border-left: 2px solid var(--gold);
+    padding: 12px 14px;
+    background: var(--bone-warm);
+    border-radius: 6px;
     line-height: 1.7;
   }
 
   .task-link {
-    display: inline-block;
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
     color: var(--clay);
     text-decoration: none;
-    border-bottom: 1px solid var(--clay-soft);
-    margin-top: 4px;
-    letter-spacing: 0.05em;
-    padding-bottom: 1px;
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+    padding: 6px 10px;
+    background: #FFE8D9;
+    border-radius: 4px;
+    transition: background 0.2s;
   }
-  .task-link:hover { color: var(--moss-deep); border-color: var(--moss-deep); }
+  .task-link:hover { background: #FFD4B8; color: var(--moss-deep); }
 
   /* CHECKLIST */
   .checklist { margin-top: 10px; }
   .check-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px dotted var(--mist);
+    gap: 12px;
+    padding: 12px 6px;
+    border-bottom: 1px solid var(--mist);
     cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.15s;
   }
+  .check-row:hover { background: var(--bone-warm); }
   .check-row:last-child { border-bottom: none; }
 
   .check-box {
     width: 22px;
     height: 22px;
-    border: 1.5px solid var(--moss-light);
+    border: 1.5px solid var(--soft);
     background: #fff;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    border-radius: 2px;
+    border-radius: 5px;
   }
   .check-row.done .check-box {
-    background: var(--moss-deep);
-    border-color: var(--moss-deep);
+    background: var(--moss);
+    border-color: var(--moss);
   }
   .check-box::after {
     content: '✓';
-    color: var(--gold);
+    color: #fff;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 700;
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -404,6 +481,7 @@
     flex: 1;
     font-size: 14px;
     color: var(--ink);
+    font-weight: 500;
   }
   .check-row.done .check-label,
   .check-row.done .check-label .sub {
@@ -419,15 +497,20 @@
   .check-label .sub {
     display: block;
     font-size: 11px;
-    color: var(--moss-light);
-    margin-top: 2px;
+    color: var(--soft);
+    margin-top: 3px;
+    font-weight: 400;
   }
   .check-points {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
     font-weight: 600;
     color: var(--clay);
     white-space: nowrap;
+    background: #FFE8D9;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: -0.02em;
   }
 
   /* TIER LIST */
@@ -435,52 +518,58 @@
   .tier-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 12px;
+    gap: 12px;
+    padding: 12px 14px;
     margin-bottom: 6px;
-    background: var(--bone);
-    border-left: 3px solid var(--mist);
+    background: var(--bone-warm);
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s;
   }
+  .tier-row:hover {
+    background: #E8EDE9;
+  }
   .tier-row.done {
-    background: linear-gradient(90deg, rgba(61, 79, 58, 0.08), transparent);
-    border-left-color: var(--moss-deep);
+    background: linear-gradient(90deg, rgba(61, 153, 112, 0.10), rgba(61, 153, 112, 0.03));
+    border-left: 3px solid var(--moss);
+    padding-left: 11px;
   }
   .tier-row.done .tier-name,
   .tier-row.done .tier-desc {
     text-decoration: line-through;
-    text-decoration-color: var(--moss-light);
-    opacity: 0.75;
+    text-decoration-color: var(--soft);
+    opacity: 0.7;
   }
   .tier-row .tier-name {
-    font-family: 'Noto Serif TC', serif;
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-weight: 700;
     color: var(--moss-deep);
-    font-size: 14px;
-    min-width: 60px;
+    font-size: 13px;
+    min-width: 56px;
+    letter-spacing: 0.02em;
   }
   .tier-row.done .tier-name { color: var(--moss-deep); }
   .tier-row .tier-desc {
     flex: 1;
     font-size: 12px;
-    color: var(--moss-light);
+    color: var(--soft);
     line-height: 1.5;
+    font-weight: 500;
   }
   .tier-row .check-box {
     width: 20px;
     height: 20px;
   }
   .tier-row .check-points {
-    font-size: 16px;
+    font-size: 13px;
   }
 
   /* COUNTER */
   .counter-block {
-    background: var(--bone);
-    padding: 12px 14px;
-    margin: 10px 0;
-    border-left: 2px solid var(--clay);
+    background: linear-gradient(135deg, #FFF4E6 0%, #FFE8D9 100%);
+    padding: 14px 16px;
+    margin: 12px 0;
+    border-radius: 6px;
   }
   .counter-row {
     display: flex;
@@ -491,47 +580,63 @@
   }
   .counter-row:last-child { margin-bottom: 0; }
   .counter-label {
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-size: 13px;
     color: var(--moss-deep);
-    font-weight: 500;
+    font-weight: 600;
   }
   .counter-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
   .counter-btn {
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--moss-light);
+    width: 32px;
+    height: 32px;
+    border: none;
     background: #fff;
-    color: var(--moss-deep);
-    font-size: 16px;
-    font-weight: bold;
+    color: var(--clay);
+    font-size: 18px;
+    font-weight: 700;
     cursor: pointer;
-    border-radius: 2px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 1px 4px rgba(255, 107, 71, 0.20);
+    transition: all 0.15s;
   }
-  .counter-btn:active { background: var(--moss-deep); color: var(--bone); }
+  .counter-btn:hover {
+    background: var(--clay);
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .counter-btn:active { transform: scale(0.95); }
   .counter-value {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 22px;
     font-weight: 600;
-    color: var(--moss-deep);
+    color: var(--clay);
     min-width: 36px;
     text-align: center;
+    letter-spacing: -0.02em;
   }
   .counter-input {
-    width: 70px;
-    padding: 4px 8px;
-    border: 1px solid var(--moss-light);
+    width: 80px;
+    padding: 6px 10px;
+    border: 1.5px solid var(--mist);
     background: #fff;
-    font-family: inherit;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
-    border-radius: 2px;
+    font-weight: 600;
+    color: var(--moss-deep);
+    border-radius: 5px;
     text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .counter-input:focus {
+    border-color: var(--clay);
   }
 
   /* TIER PROGRESS */
@@ -551,19 +656,20 @@
 
   /* WARNING */
   .warn {
-    font-size: 11px;
-    color: var(--clay);
-    background: rgba(184, 101, 74, 0.08);
-    padding: 8px 10px;
-    margin-top: 8px;
-    border-left: 2px solid var(--clay);
+    font-size: 12px;
+    color: #B8503A;
+    background: #FFF4E6;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border-radius: 5px;
     line-height: 1.5;
+    font-weight: 500;
   }
 
   /* FOOTER */
   footer {
-    margin-top: 50px;
-    padding-top: 24px;
+    margin-top: 60px;
+    padding-top: 28px;
     border-top: 1px solid var(--mist);
     text-align: center;
   }
@@ -574,18 +680,17 @@
     color: var(--moss-deep);
   }
   footer .elandia {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: 20px;
-    letter-spacing: 0.25em;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.30em;
     color: var(--clay);
   }
   footer .cn {
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.15em;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.18em;
     color: var(--moss-deep);
     position: relative;
     padding-left: 14px;
@@ -597,8 +702,8 @@
     top: 50%;
     transform: translateY(-50%);
     width: 1px;
-    height: 14px;
-    background: var(--moss-light);
+    height: 12px;
+    background: var(--mist);
   }
 
   /* SYNC INDICATOR */
@@ -606,16 +711,19 @@
     position: fixed;
     bottom: 16px;
     right: 16px;
-    background: var(--moss-deep);
-    color: var(--gold);
-    padding: 6px 12px;
-    font-size: 10px;
+    background: var(--moss);
+    color: #fff;
+    padding: 8px 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     opacity: 0;
     transition: opacity 0.3s;
     z-index: 100;
-    border-radius: 2px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(61, 153, 112, 0.3);
   }
   .sync.show { opacity: 1; }
 
@@ -623,30 +731,34 @@
   .hero-stat {
     display: flex;
     align-items: stretch;
-    gap: 1px;
-    margin-bottom: 20px;
-    background: var(--mist);
-    padding: 1px;
+    gap: 10px;
+    margin-bottom: 24px;
   }
   .hero-stat > div {
-    background: var(--bone);
+    background: #fff;
     flex: 1;
-    padding: 14px 10px;
+    padding: 18px 14px;
     text-align: center;
+    border-radius: 6px;
+    border: 1px solid var(--mist);
+    box-shadow: 0 1px 3px var(--shadow);
   }
   .hero-stat .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px;
     font-weight: 600;
     color: var(--moss-deep);
     line-height: 1;
+    letter-spacing: -0.02em;
   }
   .hero-stat .stat-label {
+    font-family: 'Manrope', 'Noto Sans TC', sans-serif;
     font-size: 10px;
-    color: var(--moss-light);
-    letter-spacing: 0.12em;
+    color: var(--soft);
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: 8px;
+    font-weight: 600;
   }
 
   @media (max-width: 480px) {
@@ -698,7 +810,7 @@
   </div>
 
   <div class="team-board">
-    <h2>團隊看板 Team Board</h2>
+    <h2>團隊看板 Team Board<span class="team-total"><span class="label">Total</span><span class="value" id="teamTotal">0</span><span class="unit">pts</span></span></h2>
     <div class="team-grid" id="teamGrid"></div>
   </div>
 
@@ -960,6 +1072,12 @@ const CATEGORIES = [
   }
 ];
 
+// Reorder categories: 身體活動 → 健康飲食 → 正向社交連結 → 身體量測
+const CATEGORY_ORDER = ['activity', 'food', 'social', 'body'];
+const ROMAN_NUMS = ['01', '02', '03', '04'];
+CATEGORIES.sort((a, b) => CATEGORY_ORDER.indexOf(a.id) - CATEGORY_ORDER.indexOf(b.id));
+CATEGORIES.forEach((cat, idx) => { cat.num = ROMAN_NUMS[idx]; });
+
 // Compute total possible points
 let MAX_POINTS = 0;
 CATEGORIES.forEach(cat => cat.tasks.forEach(t => {
@@ -1123,8 +1241,10 @@ function countCompleted(userId) {
 function renderTeamBoard() {
   const grid = document.getElementById('teamGrid');
   grid.innerHTML = '';
+  let total = 0;
   MEMBERS.forEach(m => {
     const score = computeScore(m.id);
+    total += score;
     const cell = document.createElement('div');
     cell.className = 'team-cell' + (m.id === currentUser ? ' self' : '');
     cell.innerHTML = `
@@ -1134,6 +1254,7 @@ function renderTeamBoard() {
     `;
     grid.appendChild(cell);
   });
+  document.getElementById('teamTotal').textContent = total;
 }
 
 function renderHeroStats() {
@@ -1321,19 +1442,19 @@ function renderTask(t) {
       </div>
     `;
     body += `</div>`;
-    body += `<div class="warn" style="color: var(--moss-light); background: var(--bone); border-left-color: var(--gold);">此項目計分規則未明確標示，僅作數量記錄</div>`;
+    body += `<div class="warn" style="color: var(--soft); background: var(--bone-warm);">此項目計分規則未明確標示，僅作數量記錄</div>`;
   } else if (t.type === 'sleep_tier') {
     // Render two groups; either group fully checked = points awarded
     const completeGroups = t.groups.filter(g => g.items.every(i => data['c_' + i.id]));
     const earnedHint = completeGroups.length > 0
-      ? `<div class="warn" style="color: var(--moss-deep); background: rgba(122, 140, 92, 0.12); border-left-color: var(--leaf);">✓ 已達標（${completeGroups.map(g => g.name).join('、')} 三區間全完成），獲得 ${t.points} 分</div>`
+      ? `<div class="warn" style="color: var(--moss-deep); background: rgba(61, 153, 112, 0.10); font-weight: 600;">✓ 已達標（${completeGroups.map(g => g.name).join('、')} 三區間全完成），獲得 ${t.points} 分</div>`
       : '';
     body += earnedHint;
 
     t.groups.forEach(g => {
       const groupDone = g.items.every(i => data['c_' + i.id]);
-      body += `<div style="margin-top: 14px; padding: 10px 12px; background: ${groupDone ? 'rgba(122, 140, 92, 0.08)' : 'var(--bone)'}; border-left: 3px solid ${groupDone ? 'var(--moss-deep)' : 'var(--mist)'};">`;
-      body += `<div style="font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--moss-deep); margin-bottom: 6px; font-size: 14px;">${g.name}　<span style="font-size: 11px; color: var(--moss-light); font-weight: 400;">（三區間全勾才達標 +${t.points} 分）</span></div>`;
+      body += `<div style="margin-top: 14px; padding: 14px 16px; background: ${groupDone ? 'rgba(61, 153, 112, 0.08)' : 'var(--bone-warm)'}; border-radius: 6px; border: 1px solid ${groupDone ? 'rgba(61, 153, 112, 0.25)' : 'transparent'};">`;
+      body += `<div style="font-family: 'Manrope', 'Noto Sans TC', sans-serif; font-weight: 700; color: var(--moss-deep); margin-bottom: 8px; font-size: 13px; letter-spacing: 0.02em;">${g.name}<span style="font-size: 11px; color: var(--soft); font-weight: 500; margin-left: 8px;">三區間全勾才達標 +${t.points} 分</span></div>`;
       body += '<div class="checklist">';
       g.items.forEach(i => {
         const done = data['c_' + i.id] ? 'done' : '';
@@ -1352,7 +1473,7 @@ function renderTask(t) {
       const done = data['c_' + t.formItem.id] ? 'done' : '';
       body += `
         <div style="margin-top: 12px;">
-          <div class="check-row ${done}" data-toggle="c_${t.formItem.id}" style="padding: 10px 12px; background: var(--bone); border-left: 2px solid var(--gold);">
+          <div class="check-row ${done}" data-toggle="c_${t.formItem.id}" style="padding: 12px 14px; background: #FFF4E6; border-radius: 6px;">
             <div class="check-box"></div>
             <div class="check-label">${t.formItem.label}</div>
           </div>
