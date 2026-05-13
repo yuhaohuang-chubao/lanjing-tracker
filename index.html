@@ -312,12 +312,20 @@
 
   .toggle-icon {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
+    font-size: 22px;
     color: var(--clay);
-    transition: transform 0.3s;
-    width: 16px;
+    transition: transform 0.3s, background 0.2s;
+    width: 32px;
+    height: 32px;
     text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
   }
+  .toggle-icon:hover { background: rgba(184, 101, 74, 0.12); }
+  .toggle-icon:active { background: rgba(184, 101, 74, 0.22); }
   .task.open .toggle-icon { transform: rotate(45deg); }
 
   .task-body {
@@ -397,8 +405,15 @@
     font-size: 14px;
     color: var(--ink);
   }
-  .check-row.done .check-label {
+  .check-row.done .check-label,
+  .check-row.done .check-label .sub {
     color: var(--moss-light);
+    text-decoration: line-through;
+    text-decoration-color: var(--moss-light);
+    opacity: 0.7;
+  }
+  .check-row.done .check-points {
+    opacity: 0.5;
     text-decoration: line-through;
   }
   .check-label .sub {
@@ -431,6 +446,12 @@
   .tier-row.done {
     background: linear-gradient(90deg, rgba(61, 79, 58, 0.08), transparent);
     border-left-color: var(--moss-deep);
+  }
+  .tier-row.done .tier-name,
+  .tier-row.done .tier-desc {
+    text-decoration: line-through;
+    text-decoration-color: var(--moss-light);
+    opacity: 0.75;
   }
   .tier-row .tier-name {
     font-family: 'Noto Serif TC', serif;
@@ -652,10 +673,6 @@
       <div class="stat-num" id="daysLeft">--</div>
       <div class="stat-label">剩餘天數</div>
     </div>
-    <div>
-      <div class="stat-num" id="teamAvg">0</div>
-      <div class="stat-label">團隊均分</div>
-    </div>
   </div>
 
   <div class="team-board">
@@ -685,7 +702,7 @@ const MEMBERS = [
   { id: 'yuhao', name: 'Yuhao' },
 ];
 
-const END_DATE = new Date('2025-08-02T23:59:59');
+const END_DATE = new Date('2026-08-02T23:59:59');
 
 const CATEGORIES = [
   {
@@ -1085,11 +1102,8 @@ function countCompleted(userId) {
 function renderTeamBoard() {
   const grid = document.getElementById('teamGrid');
   grid.innerHTML = '';
-  let total = 0, count = 0;
   MEMBERS.forEach(m => {
     const score = computeScore(m.id);
-    total += score;
-    count++;
     const cell = document.createElement('div');
     cell.className = 'team-cell' + (m.id === currentUser ? ' self' : '');
     cell.innerHTML = `
@@ -1099,7 +1113,6 @@ function renderTeamBoard() {
     `;
     grid.appendChild(cell);
   });
-  document.getElementById('teamAvg').textContent = count ? Math.round(total / count) : 0;
 }
 
 function renderHeroStats() {
@@ -1335,13 +1348,24 @@ function renderTask(t) {
     <div class="task-head">
       <div class="task-name">${t.name}</div>
       <div class="task-progress">${progress}</div>
-      <div class="toggle-icon">＋</div>
+      <div class="toggle-icon" role="button" aria-label="收合或展開">＋</div>
     </div>
     <div class="task-body"><div class="task-inner">${body}</div></div>
   `;
 
-  // Toggle expand
-  card.querySelector('.task-head').addEventListener('click', () => {
+  // Click task head: only EXPAND (never collapse via clicking the body area)
+  card.querySelector('.task-head').addEventListener('click', (e) => {
+    // If user clicked the toggle icon, let its handler decide
+    if (e.target.closest('.toggle-icon')) return;
+    // Otherwise: only allow expanding; never collapse from clicking elsewhere
+    if (!card.classList.contains('open')) {
+      card.classList.add('open');
+    }
+  });
+
+  // The toggle icon is the ONLY thing that can collapse
+  card.querySelector('.toggle-icon').addEventListener('click', (e) => {
+    e.stopPropagation();
     card.classList.toggle('open');
   });
 
