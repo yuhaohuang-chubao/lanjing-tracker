@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>加分任務 · 蘭境挑戰追蹤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --moss: #3d4f3a;
+    --moss-deep: #2a3829;
+    --moss-light: #5d7158;
+    --bone: #f4ede0;
+    --bone-warm: #ebe2d1;
+    --clay: #b8654a;
+    --clay-soft: #d4886e;
+    --ink: #1a1f1a;
+    --gold: #b89968;
+    --mist: #d9d5c8;
+    --leaf: #7a8c5c;
+    --shadow: rgba(26, 31, 26, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--bone);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-image:
+      radial-gradient(ellipse at top left, rgba(122, 140, 92, 0.12), transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(184, 101, 74, 0.08), transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  .wrap { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; padding: 0 18px 80px; }
+
+  /* HEADER */
+  header {
+    padding: 28px 0 18px;
+    border-bottom: 1px solid var(--mist);
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .brand-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--clay);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: 34px;
+    letter-spacing: 0.02em;
+    color: var(--moss-deep);
+    line-height: 1.1;
+  }
+
+  h1 .accent {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--clay);
+    font-size: 30px;
+  }
+
+  .meta {
+    font-size: 12px;
+    color: var(--moss-light);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  /* USER PICKER */
+  .user-bar {
+    background: var(--moss-deep);
+    color: var(--bone);
+    padding: 14px 16px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 18px var(--shadow);
+  }
+
+  .user-bar label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .user-bar select, .user-bar input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--gold);
+    color: var(--bone);
+    font-family: inherit;
+    font-size: 16px;
+    padding: 4px 6px;
+    outline: none;
+    min-width: 100px;
+  }
+
+  .user-bar select option { background: var(--moss-deep); }
+
+  .user-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  .user-score small {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--bone);
+    display: block;
+    margin-bottom: -4px;
+  }
+
+  /* TEAM BOARD */
+  .team-board {
+    background: var(--bone-warm);
+    border: 1px solid var(--mist);
+    padding: 18px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .team-board::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--moss-deep), var(--leaf), var(--clay));
+  }
+
+  .team-board h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--moss-deep);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .team-board h2::before {
+    content: '✦';
+    color: var(--clay);
+    font-size: 12px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+    gap: 8px;
+  }
+
+  .team-cell {
+    background: var(--bone);
+    padding: 10px 8px;
+    text-align: center;
+    border-left: 2px solid var(--leaf);
+    transition: transform 0.2s;
+  }
+  .team-cell.self {
+    border-left-color: var(--clay);
+    background: linear-gradient(180deg, var(--bone) 0%, rgba(184, 101, 74, 0.08) 100%);
+  }
+  .team-cell .name {
+    font-size: 12px;
+    color: var(--moss-deep);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .team-cell .score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--moss-deep);
+    line-height: 1;
+  }
+  .team-cell .score-label {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--moss-light);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* CATEGORY */
+  .category {
+    margin-bottom: 36px;
+  }
+
+  .category-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--moss-light);
+  }
+  .category-head .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--clay);
+    font-weight: 400;
+    line-height: 1;
+  }
+  .category-head .title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--moss-deep);
+    letter-spacing: 0.05em;
+  }
+  .category-head .en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--moss-light);
+    margin-left: auto;
+    letter-spacing: 0.1em;
+  }
+
+  /* TASK CARD */
+  .task {
+    background: #fff;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .task:hover { box-shadow: 0 4px 20px rgba(26, 31, 26, 0.12); }
+
+  .task-head {
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    background: linear-gradient(180deg, #fff 0%, var(--bone-warm) 100%);
+    border-left: 3px solid var(--leaf);
+  }
+
+  .task-name {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--moss-deep);
+    flex: 1;
+  }
+  .task-name .diff {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--clay);
+    margin-left: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  .task-progress {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--moss-deep);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .task-progress small {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 10px;
+    color: var(--moss-light);
+    margin-left: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .toggle-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: var(--clay);
+    transition: transform 0.3s;
+    width: 16px;
+    text-align: center;
+  }
+  .task.open .toggle-icon { transform: rotate(45deg); }
+
+  .task-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .task.open .task-body { max-height: 4000px; }
+
+  .task-inner {
+    padding: 4px 16px 18px;
+    border-top: 1px solid var(--mist);
+  }
+
+  .task-desc {
+    font-size: 13px;
+    color: var(--moss-light);
+    margin: 10px 0 14px;
+    padding: 10px 12px;
+    background: var(--bone);
+    border-left: 2px solid var(--gold);
+    line-height: 1.7;
+  }
+
+  .task-link {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--clay);
+    text-decoration: none;
+    border-bottom: 1px solid var(--clay-soft);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+    padding-bottom: 1px;
+  }
+  .task-link:hover { color: var(--moss-deep); border-color: var(--moss-deep); }
+
+  /* CHECKLIST */
+  .checklist { margin-top: 10px; }
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--mist);
+    cursor: pointer;
+  }
+  .check-row:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--moss-light);
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .check-row.done .check-box {
+    background: var(--moss-deep);
+    border-color: var(--moss-deep);
+  }
+  .check-box::after {
+    content: '✓';
+    color: var(--gold);
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .check-row.done .check-box::after { opacity: 1; }
+
+  .check-label {
+    flex: 1;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .check-row.done .check-label {
+    color: var(--moss-light);
+    text-decoration: line-through;
+  }
+  .check-label .sub {
+    display: block;
+    font-size: 11px;
+    color: var(--moss-light);
+    margin-top: 2px;
+  }
+  .check-points {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clay);
+    white-space: nowrap;
+  }
+
+  /* TIER LIST */
+  .tier-list { margin-top: 8px; }
+  .tier-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 12px;
+    margin-bottom: 6px;
+    background: var(--bone);
+    border-left: 3px solid var(--mist);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tier-row.done {
+    background: linear-gradient(90deg, rgba(61, 79, 58, 0.08), transparent);
+    border-left-color: var(--moss-deep);
+  }
+  .tier-row .tier-name {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    color: var(--moss-deep);
+    font-size: 14px;
+    min-width: 60px;
+  }
+  .tier-row.done .tier-name { color: var(--moss-deep); }
+  .tier-row .tier-desc {
+    flex: 1;
+    font-size: 12px;
+    color: var(--moss-light);
+    line-height: 1.5;
+  }
+  .tier-row .check-box {
+    width: 20px;
+    height: 20px;
+  }
+  .tier-row .check-points {
+    font-size: 16px;
+  }
+
+  /* COUNTER */
+  .counter-block {
+    background: var(--bone);
+    padding: 12px 14px;
+    margin: 10px 0;
+    border-left: 2px solid var(--clay);
+  }
+  .counter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .counter-row:last-child { margin-bottom: 0; }
+  .counter-label {
+    font-size: 13px;
+    color: var(--moss-deep);
+    font-weight: 500;
+  }
+  .counter-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .counter-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--moss-light);
+    background: #fff;
+    color: var(--moss-deep);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .counter-btn:active { background: var(--moss-deep); color: var(--bone); }
+  .counter-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--moss-deep);
+    min-width: 36px;
+    text-align: center;
+  }
+  .counter-input {
+    width: 70px;
+    padding: 4px 8px;
+    border: 1px solid var(--moss-light);
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  /* TIER PROGRESS */
+  .tier-progress-bar {
+    display: flex;
+    gap: 2px;
+    margin: 8px 0 4px;
+    height: 6px;
+  }
+  .tier-seg {
+    flex: 1;
+    background: var(--mist);
+    transition: background 0.3s;
+  }
+  .tier-seg.active { background: var(--leaf); }
+  .tier-seg.complete { background: var(--moss-deep); }
+
+  /* WARNING */
+  .warn {
+    font-size: 11px;
+    color: var(--clay);
+    background: rgba(184, 101, 74, 0.08);
+    padding: 8px 10px;
+    margin-top: 8px;
+    border-left: 2px solid var(--clay);
+    line-height: 1.5;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 50px;
+    padding-top: 24px;
+    border-top: 1px solid var(--mist);
+    text-align: center;
+    font-size: 11px;
+    color: var(--moss-light);
+    letter-spacing: 0.08em;
+  }
+  footer .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--moss-deep);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  /* SYNC INDICATOR */
+  .sync {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: var(--moss-deep);
+    color: var(--gold);
+    padding: 6px 12px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 100;
+    border-radius: 2px;
+  }
+  .sync.show { opacity: 1; }
+
+  /* HERO STAT */
+  .hero-stat {
+    display: flex;
+    align-items: stretch;
+    gap: 1px;
+    margin-bottom: 20px;
+    background: var(--mist);
+    padding: 1px;
+  }
+  .hero-stat > div {
+    background: var(--bone);
+    flex: 1;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .hero-stat .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--moss-deep);
+    line-height: 1;
+  }
+  .hero-stat .stat-label {
+    font-size: 10px;
+    color: var(--moss-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 28px; }
+    h1 .accent { font-size: 24px; }
+    .task-name { font-size: 14px; }
+    .category-head .title { font-size: 17px; }
+    .hero-stat .stat-num { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand-mark">Bonus Tasks · 12 Weeks</div>
+    <h1>加分任務 <span class="accent">tracker</span></h1>
+    <div class="meta">蘭境挑戰 · 團隊共享追蹤 · 5/11 – 8/2</div>
+  </header>
+
+  <div class="user-bar">
+    <div>
+      <label>挑戰者</label><br>
+      <select id="userSelect">
+        <option value="">-- 選擇身分 --</option>
+        <option value="phoebe">Phoebe</option>
+        <option value="mike">Mike</option>
+        <option value="elio">Elio</option>
+        <option value="tina">Tina</option>
+        <option value="poe">Poe</option>
+        <option value="yuhao">Yuhao</option>
+      </select>
+    </div>
+    <div class="user-score">
+      <small>個人積分</small>
+      <span id="myScore">0</span>
+    </div>
+  </div>
+
+  <div class="hero-stat">
+    <div>
+      <div class="stat-num" id="totalTasks">0</div>
+      <div class="stat-label">已完成項目</div>
+    </div>
+    <div>
+      <div class="stat-num" id="daysLeft">--</div>
+      <div class="stat-label">剩餘天數</div>
+    </div>
+    <div>
+      <div class="stat-num" id="teamAvg">0</div>
+      <div class="stat-label">團隊均分</div>
+    </div>
+  </div>
+
+  <div class="team-board">
+    <h2>團隊看板 Team Board</h2>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+
+  <div id="tasksContainer"></div>
+
+  <footer>
+    <div class="quote">"Small steps, sustained — that is the orchid's way."</div>
+    <div>蘭境挑戰 · 12週身心養成 · 資料即時同步</div>
+  </footer>
+
+</div>
+
+<div class="sync" id="sync">✓ 已同步</div>
+
+<script>
+// ============ DATA STRUCTURE ============
+const MEMBERS = [
+  { id: 'phoebe', name: 'Phoebe' },
+  { id: 'mike', name: 'Mike' },
+  { id: 'elio', name: 'Elio' },
+  { id: 'tina', name: 'Tina' },
+  { id: 'poe', name: 'Poe' },
+  { id: 'yuhao', name: 'Yuhao' },
+];
+
+const END_DATE = new Date('2025-08-02T23:59:59');
+
+const CATEGORIES = [
+  {
+    id: 'body',
+    name: '身體量測',
+    en: 'Vitals',
+    num: 'I',
+    tasks: [
+      {
+        id: 't722',
+        name: '722之路',
+        desc: '連續七天、早晚各兩次紀錄血壓於 JoiiSports【人體儀錶板－生理(收縮壓/舒張壓)】。可用自家血壓計或 7-11 量測。',
+        type: 'checklist',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSe6H0ECjEGFbJv_ZiYbsw0oZFUcPpRplO4uTLzIowioxXn78g/viewform',
+        warn: '兩個梯次都要在 8/2 23:59 前回報',
+        items: [
+          { id: '722-1', label: '梯次一 5/11–5/17 連續七天早晚各兩次', points: 10 },
+          { id: '722-2', label: '梯次一 完成表單回報', points: 0, sub: '上方紀錄完成後填寫' },
+          { id: '722-3', label: '梯次二 7/27–8/2 連續七天早晚各兩次', points: 10 },
+          { id: '722-4', label: '梯次二 完成表單回報', points: 0, sub: '上方紀錄完成後填寫' },
+        ]
+      },
+      {
+        id: 'sleep',
+        name: '好眠之路',
+        desc: '配戴智慧手錶睡眠時佩戴，同步至 Joii app。任選一個梯次，該梯次「三個區間都要連續七天紀錄」才算完成。',
+        type: 'sleep_tier',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSdJuizy9cMGfmev-cCrmFpEdZPHLigvle0VaSAGPm0dC6OliQ/viewform',
+        warn: '任選一梯次（A 或 B），但該梯次的三個區間全部都要做完',
+        points: 10,
+        groups: [
+          {
+            id: 'sleep-a',
+            name: '梯次 A',
+            items: [
+              { id: 'sleep-a1', label: '5/18–5/24 連續七天睡眠紀錄' },
+              { id: 'sleep-a2', label: '6/15–6/21 連續七天睡眠紀錄' },
+              { id: 'sleep-a3', label: '7/13–7/19 連續七天睡眠紀錄' },
+            ]
+          },
+          {
+            id: 'sleep-b',
+            name: '梯次 B',
+            items: [
+              { id: 'sleep-b1', label: '5/25–5/31 連續七天睡眠紀錄' },
+              { id: 'sleep-b2', label: '6/22–6/28 連續七天睡眠紀錄' },
+              { id: 'sleep-b3', label: '7/20–7/26 連續七天睡眠紀錄' },
+            ]
+          },
+        ],
+        formItem: { id: 'sleep-form', label: '完成整個梯次後表單回報' }
+      },
+      {
+        id: 'health',
+        name: '健康之路',
+        desc: '完成健保快易通虛擬卡綁定，以及其他健檢/疫苗/癌篩任務（紀錄回溯至 2025/6/1）。',
+        type: 'checklist',
+        items: [
+          { 
+            id: 'health-1', 
+            label: '健保卡虛擬卡綁定 [易]', 
+            points: 10,
+            sub: '【健保快易通】完成虛擬健保卡綁定 + 表單回報',
+            linkInline: 'https://docs.google.com/forms/d/e/1FAIpQLScRDB_aSsu0XmMjOgSg1S3spIrlgK7wh_KL-oygd19_5kak8g/viewform'
+          },
+          { 
+            id: 'health-2', 
+            label: '成人健檢 [難]', 
+            points: 10,
+            sub: '30–39歲5年一次／40–64歲3年一次／65+每年。【健保快易通】檢驗檢查結果→健康檢查報告→成人預防保健'
+          },
+          { 
+            id: 'health-3', 
+            label: '接種疫苗 [難]', 
+            points: 10,
+            sub: '流感／新冠／肺鏈／皮蛇疫苗，回溯至 2025/6/1。【健保快易通】個人紀錄→預防接種資料'
+          },
+          { 
+            id: 'health-4', 
+            label: '癌症篩檢 [難]', 
+            points: 10,
+            sub: '子宮頸／乳房／大腸／口腔／肺／胃癌（含 45–74 歲幽門桿菌），回溯至 2025/6/1。【健保快易通】檢驗檢查結果→健康檢查報告→癌症篩檢結果'
+          },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'social',
+    name: '正向社交連結',
+    en: 'Connection',
+    num: 'II',
+    tasks: [
+      {
+        id: 'influence',
+        name: '影響力之路',
+        desc: '在社群（LINE / FB / IG）操作，搭配其他任務拍照寫心得即可累積。',
+        type: 'tier',
+        link: 'https://forms.gle/4tCcbAc8hZWeKVPw8',
+        tiers: [
+          { id: 'inf-1', name: '入門', desc: '換頭貼並截圖上傳（任選 LINE/FB/IG）', points: 10 },
+          { id: 'inf-2', name: '進階', desc: '分享蘭境貼文或活動，附 #蘭境挑戰 發布並截圖', points: 10 },
+          { id: 'inf-3', name: '菁英', desc: '分享印象深刻照片＋微改變心得，附 #蘭境挑戰 發布並截圖', points: 10 },
+          { id: 'inf-4', name: '大師 [難]', desc: '與小組成員 5–10 秒健康生活短片／限動，附 #蘭境挑戰 發布並截圖', points: 20 },
+        ]
+      },
+      {
+        id: 'travel',
+        name: '共遊之路',
+        desc: '探訪景點並拍照上傳。每去一個景點、上傳一次表單後，就在下方按「+」記錄一次，方便自己掌握已經累積去過幾個景點。注意：步道（鐵腿之路）不可認列為此項。',
+        type: 'count_tier',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLScSlMUPS1-lDbbuqab2u2zowW1VUyLfnJNTbH0n2wtoCPLPXw/viewform',
+        warn: '景點不可重複；步道項目不認列',
+        counter: { label: '我已造訪並上傳的景點數', max: 12 },
+        tiers: [
+          { threshold: 4, name: '入門', points: 10, descText: '累計造訪 4 個景點' },
+          { threshold: 8, name: '進階', points: 20, descText: '累計造訪 8 個景點' },
+          { threshold: 12, name: '菁英', points: 30, descText: '累計造訪 12 個景點' },
+        ]
+      },
+      {
+        id: 'sustain',
+        name: '永續之路',
+        desc: '參加一場淨灘活動並拍照上傳。',
+        type: 'checklist',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSfdRF9xf57-Jurp4mN7xOaulz9INMtWyv92G7AhEQ_VDMLxVA/viewform',
+        warn: '可參考 ecolife2.moenv.gov.tw/BeachCleanup 查詢場次',
+        items: [
+          { id: 'sus-1', label: '完成淨灘活動並上傳照片', points: 20 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'food',
+    name: '健康飲食',
+    en: 'Nourishment',
+    num: 'III',
+    tasks: [
+      {
+        id: 'oil',
+        name: '好油之路',
+        desc: '每日拍下指定類型食物的照片，連續三天，每天即時上傳。',
+        type: 'checklist',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSdfFWps2D7HMWARG5kbT6zBfiFsluE3Owqu2FDdARrHvmwFfw/viewform',
+        warn: '每天拍、每天上傳；不可一次補三天',
+        items: [
+          { id: 'oil-1', label: '入門：連續 3 天每日攝取 Omega-3 食物', points: 10, sub: '每天拍照＋上傳' },
+          { id: 'oil-2', label: '進階：連續 3 天每日將一餐主食換為全穀雜糧', points: 10, sub: '燕麥／糙米／五穀飯／地瓜／玉米／全麥吐司' },
+          { id: 'oil-3', label: '菁英：連續 3 天每日攝取低脂海鮮（替代紅肉）', points: 10, sub: '每天拍照＋上傳' },
+        ]
+      },
+      {
+        id: 'cook',
+        name: '食光之路',
+        desc: '自製地中海料理。做一道、拍一道、傳一道，累計計分。',
+        type: 'count_tier',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSfTAWtLiOX1KYvqh3JbF_C5RoZFOo1oDfVlZElkL8F0f3uacw/viewform',
+        warn: '伙食費可能提高，請自行斟酌；參考官方食譜',
+        counter: { label: '完成料理數', max: 8 },
+        tiers: [
+          { threshold: 2, name: '入門', points: 10, descText: '累計完成 2 道料理' },
+          { threshold: 4, name: '進階', points: 20, descText: '累計完成 4 道料理' },
+          { threshold: 6, name: '菁英', points: 30, descText: '累計完成 6 道料理' },
+          { threshold: 8, name: '大師', points: 50, descText: '累計完成 8 道料理' },
+        ]
+      },
+      {
+        id: 'eat',
+        name: '擇食之路',
+        desc: '吃官方指定的宜蘭餐廳，吃一家拍一家上傳一家。每去一家上傳後就在下方按「+」紀錄。',
+        type: 'count_tier',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLScmTaUdBnbjFu1W-3Tml0gUdzZwTLDtK2JCH-Eo6jemaYi6ag/viewform',
+        warn: '只計入官方指定餐廳清單；店家不可重複',
+        counter: { label: '我已造訪並上傳的餐廳數', max: 6 },
+        tiers: [
+          { threshold: 2, name: '入門', points: 10, descText: '累計尋訪 2 間餐廳' },
+          { threshold: 4, name: '進階', points: 20, descText: '累計尋訪 4 間餐廳' },
+          { threshold: 6, name: '菁英', points: 30, descText: '累計尋訪 6 間餐廳' },
+        ]
+      },
+      {
+        id: 'sugar',
+        name: '穩糖之路',
+        desc: '低 GI 飲食、211 餐盤、餐後散步的組合任務。',
+        type: 'checklist',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLScSGDaw-vTvojZXqQlrkPsvI5bbUkm2Lpmc8lF-nkK4Fp66vA/viewform',
+        warn: '都是「連續三天」要求，拍三天傳三天',
+        items: [
+          { id: 'sug-1', label: '入門：連續 3 天每日一餐用低 GI 澱粉替代白飯', points: 10 },
+          { id: 'sug-2', label: '進階：連續 3 天每日一餐用 211 餐盤配置', points: 10 },
+          { id: 'sug-3', label: '菁英：連續 3 天午晚餐後 10 分鐘走路（JoiiSports 健行紀錄）', points: 10 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'activity',
+    name: '身體活動',
+    en: 'Movement',
+    num: 'IV',
+    tasks: [
+      {
+        id: 'trail',
+        name: '鐵腿之路',
+        desc: '走步道，開啟 JoiiSports【愛運動－健行】紀錄，並與步道名稱拍合照。',
+        type: 'count_tier',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSfysFmehq50une_Ttg3OKVv6MKbgdIHamRAeZnk0ft9M4yjHA/viewform',
+        warn: '每次走完去表單上傳合照',
+        counter: { label: '完成步道數', max: 12 },
+        counterExtra: { label: '累積公里數', max: 60 },
+        tiers: [
+          { threshold: 3, extra: 6, name: '入門', points: 10, descText: '達 3 步道，至少 6 公里' },
+          { threshold: 6, extra: 20, name: '進階', points: 20, descText: '達 6 步道，至少 20 公里' },
+          { threshold: 9, extra: 40, name: '菁英', points: 30, descText: '達 9 步道，至少 40 公里' },
+          { threshold: 12, extra: 60, name: '大師', points: 50, descText: '達 12 步道，至少 60 公里' },
+        ]
+      },
+      {
+        id: 'fitness',
+        name: '體能之路',
+        desc: '12 週累積運動分鐘數（形式不限）。手錶同步 Joii 或開啟 JoiiSports 計時。',
+        type: 'counter_tier',
+        link: 'https://docs.google.com/forms/d/e/1FAIpQLSeAmMP4ueW5_sDsN8BtJn4ulSVT1dsBw2Bid182WmkPuNA_Ug/viewform',
+        warn: '8/2 23:59 前上傳結果',
+        counter: { label: '累積運動分鐘', max: 1800 },
+        tiers: [
+          { threshold: 1080, name: '入門', desc: '平均每週 90 分', points: 10 },
+          { threshold: 1440, name: '進階', desc: '平均每週 120 分', points: 20 },
+          { threshold: 1800, name: '菁英', desc: '平均每週 150 分', points: 30 },
+        ]
+      }
+    ]
+  }
+];
+
+// Compute total possible points
+let MAX_POINTS = 0;
+CATEGORIES.forEach(cat => cat.tasks.forEach(t => {
+  if (t.type === 'checklist') t.items.forEach(i => MAX_POINTS += i.points);
+  if (t.type === 'tier') t.tiers.forEach(ti => MAX_POINTS += ti.points);
+  if (t.type === 'count_tier' || t.type === 'counter_tier') {
+    const max = Math.max(...t.tiers.map(ti => ti.points));
+    MAX_POINTS += max;
+  }
+}));
+
+// ============ STATE ============
+let currentUser = '';
+let allData = {}; // { userId: { taskItemId: true/false, counterId: number } }
+
+// ============ SUPABASE CONFIG ============
+const SUPABASE_URL = 'https://oghjuynrdmrmaudbdiox.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_6D1JketgZNisyIw_R7XByQ_QLj3puj7';
+const TABLE_URL = `${SUPABASE_URL}/rest/v1/tracker`;
+const SB_HEADERS = {
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation'
+};
+
+// Debounce save to avoid hammering the API
+let savePending = false;
+let saveTimer = null;
+
+// ============ STORAGE ============
+async function loadAll() {
+  try {
+    const res = await fetch(`${TABLE_URL}?id=eq.shared&select=data`, {
+      headers: SB_HEADERS
+    });
+    if (!res.ok) throw new Error('Load failed: ' + res.status);
+    const rows = await res.json();
+    if (rows.length > 0 && rows[0].data) {
+      allData = rows[0].data;
+    } else {
+      allData = {};
+    }
+  } catch (e) {
+    console.error('Load error', e);
+    showSync('離線', true);
+    // Keep current allData if exists
+    if (!allData || Object.keys(allData).length === 0) allData = {};
+  }
+  // Ensure all members have entries
+  MEMBERS.forEach(m => {
+    if (!allData[m.id]) allData[m.id] = {};
+  });
+}
+
+async function saveAll() {
+  // Debounce: schedule save 300ms after last change
+  if (saveTimer) clearTimeout(saveTimer);
+  savePending = true;
+  saveTimer = setTimeout(async () => {
+    try {
+      const res = await fetch(`${TABLE_URL}?id=eq.shared`, {
+        method: 'PATCH',
+        headers: SB_HEADERS,
+        body: JSON.stringify({ data: allData, updated_at: new Date().toISOString() })
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error('Save failed: ' + res.status + ' ' + errText);
+      }
+      savePending = false;
+      showSync();
+    } catch (e) {
+      console.error('Save error', e);
+      showSync('儲存失敗', true);
+    }
+  }, 300);
+}
+
+let syncTimer;
+function showSync(msg, isError) {
+  const el = document.getElementById('sync');
+  el.textContent = msg || '✓ 已同步';
+  el.style.background = isError ? '#b8654a' : '';
+  el.classList.add('show');
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => el.classList.remove('show'), isError ? 3000 : 1500);
+}
+
+// ============ SCORE ============
+function computeScore(userId) {
+  const data = allData[userId] || {};
+  let score = 0;
+
+  CATEGORIES.forEach(cat => {
+    cat.tasks.forEach(t => {
+      if (t.type === 'checklist') {
+        t.items.forEach(i => {
+          if (data['c_' + i.id]) score += i.points;
+        });
+      } else if (t.type === 'tier') {
+        t.tiers.forEach(ti => {
+          if (data['c_' + ti.id]) score += ti.points;
+        });
+      } else if (t.type === 'count_tier') {
+        const count = data['n_' + t.id] || 0;
+        const extra = data['n_' + t.id + '_extra'] || 0;
+        let earned = 0;
+        t.tiers.forEach(ti => {
+          const okExtra = ti.extra ? extra >= ti.extra : true;
+          if (count >= ti.threshold && okExtra) {
+            earned = Math.max(earned, ti.points);
+          }
+        });
+        score += earned;
+      } else if (t.type === 'counter_tier') {
+        const count = data['n_' + t.id] || 0;
+        let earned = 0;
+        t.tiers.forEach(ti => {
+          if (count >= ti.threshold) earned = Math.max(earned, ti.points);
+        });
+        score += earned;
+      } else if (t.type === 'counter_only') {
+        // No fixed scoring; ignore for now
+      } else if (t.type === 'sleep_tier') {
+        // Earn points if ANY one group has all items checked
+        const anyGroupComplete = t.groups.some(g =>
+          g.items.every(i => data['c_' + i.id])
+        );
+        if (anyGroupComplete) score += t.points;
+      }
+    });
+  });
+
+  return score;
+}
+
+function countCompleted(userId) {
+  const data = allData[userId] || {};
+  let n = 0;
+  CATEGORIES.forEach(cat => cat.tasks.forEach(t => {
+    if (t.type === 'checklist') t.items.forEach(i => { if (data['c_' + i.id]) n++; });
+    if (t.type === 'tier') t.tiers.forEach(ti => { if (data['c_' + ti.id]) n++; });
+    if (t.type === 'count_tier' || t.type === 'counter_tier') {
+      const count = data['n_' + t.id] || 0;
+      const extra = data['n_' + t.id + '_extra'] || 0;
+      t.tiers.forEach(ti => {
+        const okExtra = ti.extra ? extra >= ti.extra : true;
+        if (count >= ti.threshold && okExtra) n++;
+      });
+    }
+    if (t.type === 'sleep_tier') {
+      // count each checked sub-item as one completed step
+      t.groups.forEach(g => g.items.forEach(i => { if (data['c_' + i.id]) n++; }));
+    }
+  }));
+  return n;
+}
+
+// ============ RENDER ============
+function renderTeamBoard() {
+  const grid = document.getElementById('teamGrid');
+  grid.innerHTML = '';
+  let total = 0, count = 0;
+  MEMBERS.forEach(m => {
+    const score = computeScore(m.id);
+    total += score;
+    count++;
+    const cell = document.createElement('div');
+    cell.className = 'team-cell' + (m.id === currentUser ? ' self' : '');
+    cell.innerHTML = `
+      <div class="name">${m.name}</div>
+      <div class="score">${score}</div>
+      <div class="score-label">pts</div>
+    `;
+    grid.appendChild(cell);
+  });
+  document.getElementById('teamAvg').textContent = count ? Math.round(total / count) : 0;
+}
+
+function renderHeroStats() {
+  if (currentUser) {
+    document.getElementById('totalTasks').textContent = countCompleted(currentUser);
+  } else {
+    document.getElementById('totalTasks').textContent = '–';
+  }
+  const now = new Date();
+  const diff = Math.ceil((END_DATE - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('daysLeft').textContent = diff > 0 ? diff : '0';
+}
+
+function renderMyScore() {
+  if (currentUser) {
+    document.getElementById('myScore').textContent = computeScore(currentUser);
+  } else {
+    document.getElementById('myScore').textContent = '–';
+  }
+}
+
+function renderTasks() {
+  const container = document.getElementById('tasksContainer');
+  container.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const section = document.createElement('div');
+    section.className = 'category';
+    section.innerHTML = `
+      <div class="category-head">
+        <span class="num">${cat.num}</span>
+        <span class="title">${cat.name}</span>
+        <span class="en">${cat.en}</span>
+      </div>
+    `;
+    cat.tasks.forEach(t => {
+      section.appendChild(renderTask(t));
+    });
+    container.appendChild(section);
+  });
+}
+
+function renderTask(t) {
+  const data = currentUser ? allData[currentUser] : {};
+  const card = document.createElement('div');
+  card.className = 'task';
+  card.dataset.taskId = t.id;
+
+  // Compute progress display
+  let progress = '';
+  if (t.type === 'checklist') {
+    const done = t.items.filter(i => data['c_' + i.id]).length;
+    progress = `${done}<small>/${t.items.length}</small>`;
+  } else if (t.type === 'tier') {
+    const done = t.tiers.filter(ti => data['c_' + ti.id]).length;
+    progress = `${done}<small>/${t.tiers.length}</small>`;
+  } else if (t.type === 'count_tier' || t.type === 'counter_tier') {
+    const n = data['n_' + t.id] || 0;
+    progress = `${n}<small>/${t.counter.max}</small>`;
+  } else if (t.type === 'counter_only') {
+    const n = data['n_' + t.id] || 0;
+    progress = `${n}<small>家</small>`;
+  } else if (t.type === 'sleep_tier') {
+    const anyDone = t.groups.some(g => g.items.every(i => data['c_' + i.id]));
+    const maxDone = Math.max(...t.groups.map(g => g.items.filter(i => data['c_' + i.id]).length));
+    progress = anyDone ? `✓<small>達標</small>` : `${maxDone}<small>/3</small>`;
+  }
+
+  // Build body
+  let body = `<div class="task-desc">${t.desc}</div>`;
+  if (t.warn) body += `<div class="warn">⚠ ${t.warn}</div>`;
+
+  if (t.type === 'checklist') {
+    body += '<div class="checklist">';
+    t.items.forEach(i => {
+      const done = data['c_' + i.id] ? 'done' : '';
+      body += `
+        <div class="check-row ${done}" data-toggle="c_${i.id}">
+          <div class="check-box"></div>
+          <div class="check-label">${i.label}${i.sub ? `<span class="sub">${i.sub}</span>` : ''}${i.linkInline ? `<br><a href="${i.linkInline}" target="_blank" class="task-link" onclick="event.stopPropagation()">→ 表單連結</a>` : ''}</div>
+          ${i.points > 0 ? `<div class="check-points">+${i.points}</div>` : ''}
+        </div>
+      `;
+    });
+    body += '</div>';
+  } else if (t.type === 'tier') {
+    body += '<div class="tier-list">';
+    t.tiers.forEach(ti => {
+      const done = data['c_' + ti.id] ? 'done' : '';
+      body += `
+        <div class="tier-row ${done}" data-toggle="c_${ti.id}">
+          <div class="check-box"></div>
+          <div class="tier-name">${ti.name}</div>
+          <div class="tier-desc">${ti.desc}</div>
+          <div class="check-points">+${ti.points}</div>
+        </div>
+      `;
+    });
+    body += '</div>';
+  } else if (t.type === 'count_tier') {
+    const n = data['n_' + t.id] || 0;
+    const extra = data['n_' + t.id + '_extra'] || 0;
+    body += `<div class="counter-block">`;
+    body += `
+      <div class="counter-row">
+        <div class="counter-label">${t.counter.label}</div>
+        <div class="counter-controls">
+          <button class="counter-btn" data-counter="${t.id}" data-delta="-1">−</button>
+          <div class="counter-value">${n}</div>
+          <button class="counter-btn" data-counter="${t.id}" data-delta="1">+</button>
+        </div>
+      </div>
+    `;
+    if (t.counterExtra) {
+      body += `
+        <div class="counter-row">
+          <div class="counter-label">${t.counterExtra.label}</div>
+          <div class="counter-controls">
+            <input type="number" class="counter-input" data-counter-input="${t.id}_extra" value="${extra}" min="0" step="0.1">
+          </div>
+        </div>
+      `;
+    }
+    body += `</div>`;
+
+    // Tier list (read-only, auto-computed)
+    body += '<div class="tier-list">';
+    t.tiers.forEach(ti => {
+      const okExtra = ti.extra ? extra >= ti.extra : true;
+      const reached = n >= ti.threshold && okExtra;
+      const done = reached ? 'done' : '';
+      let descText;
+      if (ti.descText) {
+        descText = ti.descText;
+      } else {
+        descText = `達 ${ti.threshold} 項`;
+      }
+      body += `
+        <div class="tier-row ${done}" style="cursor:default">
+          <div class="check-box"></div>
+          <div class="tier-name">${ti.name}</div>
+          <div class="tier-desc">${descText}</div>
+          <div class="check-points">+${ti.points}</div>
+        </div>
+      `;
+    });
+    body += '</div>';
+  } else if (t.type === 'counter_tier') {
+    const n = data['n_' + t.id] || 0;
+    body += `<div class="counter-block">`;
+    body += `
+      <div class="counter-row">
+        <div class="counter-label">${t.counter.label}</div>
+        <div class="counter-controls">
+          <input type="number" class="counter-input" data-counter-input="${t.id}" value="${n}" min="0" step="10">
+        </div>
+      </div>
+    `;
+    body += `</div>`;
+
+    body += '<div class="tier-list">';
+    t.tiers.forEach(ti => {
+      const reached = n >= ti.threshold;
+      const done = reached ? 'done' : '';
+      body += `
+        <div class="tier-row ${done}" style="cursor:default">
+          <div class="check-box"></div>
+          <div class="tier-name">${ti.name}</div>
+          <div class="tier-desc">達 ${ti.threshold} 分鐘（${ti.desc}）</div>
+          <div class="check-points">+${ti.points}</div>
+        </div>
+      `;
+    });
+    body += '</div>';
+  } else if (t.type === 'counter_only') {
+    const n = data['n_' + t.id] || 0;
+    body += `<div class="counter-block">`;
+    body += `
+      <div class="counter-row">
+        <div class="counter-label">${t.counter.label}</div>
+        <div class="counter-controls">
+          <button class="counter-btn" data-counter="${t.id}" data-delta="-1">−</button>
+          <div class="counter-value">${n}</div>
+          <button class="counter-btn" data-counter="${t.id}" data-delta="1">+</button>
+        </div>
+      </div>
+    `;
+    body += `</div>`;
+    body += `<div class="warn" style="color: var(--moss-light); background: var(--bone); border-left-color: var(--gold);">此項目計分規則未明確標示，僅作數量記錄</div>`;
+  } else if (t.type === 'sleep_tier') {
+    // Render two groups; either group fully checked = points awarded
+    const completeGroups = t.groups.filter(g => g.items.every(i => data['c_' + i.id]));
+    const earnedHint = completeGroups.length > 0
+      ? `<div class="warn" style="color: var(--moss-deep); background: rgba(122, 140, 92, 0.12); border-left-color: var(--leaf);">✓ 已達標（${completeGroups.map(g => g.name).join('、')} 三區間全完成），獲得 ${t.points} 分</div>`
+      : '';
+    body += earnedHint;
+
+    t.groups.forEach(g => {
+      const groupDone = g.items.every(i => data['c_' + i.id]);
+      body += `<div style="margin-top: 14px; padding: 10px 12px; background: ${groupDone ? 'rgba(122, 140, 92, 0.08)' : 'var(--bone)'}; border-left: 3px solid ${groupDone ? 'var(--moss-deep)' : 'var(--mist)'};">`;
+      body += `<div style="font-family: 'Noto Serif TC', serif; font-weight: 700; color: var(--moss-deep); margin-bottom: 6px; font-size: 14px;">${g.name}　<span style="font-size: 11px; color: var(--moss-light); font-weight: 400;">（三區間全勾才達標 +${t.points} 分）</span></div>`;
+      body += '<div class="checklist">';
+      g.items.forEach(i => {
+        const done = data['c_' + i.id] ? 'done' : '';
+        body += `
+          <div class="check-row ${done}" data-toggle="c_${i.id}">
+            <div class="check-box"></div>
+            <div class="check-label">${i.label}</div>
+          </div>
+        `;
+      });
+      body += '</div></div>';
+    });
+
+    // Form report row
+    if (t.formItem) {
+      const done = data['c_' + t.formItem.id] ? 'done' : '';
+      body += `
+        <div style="margin-top: 12px;">
+          <div class="check-row ${done}" data-toggle="c_${t.formItem.id}" style="padding: 10px 12px; background: var(--bone); border-left: 2px solid var(--gold);">
+            <div class="check-box"></div>
+            <div class="check-label">${t.formItem.label}</div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  if (t.link) {
+    body += `<a href="${t.link}" target="_blank" class="task-link">→ 開啟成果上傳表單</a>`;
+  }
+
+  card.innerHTML = `
+    <div class="task-head">
+      <div class="task-name">${t.name}</div>
+      <div class="task-progress">${progress}</div>
+      <div class="toggle-icon">＋</div>
+    </div>
+    <div class="task-body"><div class="task-inner">${body}</div></div>
+  `;
+
+  // Toggle expand
+  card.querySelector('.task-head').addEventListener('click', () => {
+    card.classList.toggle('open');
+  });
+
+  // Toggle checks
+  card.querySelectorAll('[data-toggle]').forEach(el => {
+    el.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!currentUser) {
+        alert('請先在上方選擇你的身分');
+        return;
+      }
+      const key = el.dataset.toggle;
+      allData[currentUser][key] = !allData[currentUser][key];
+      el.classList.toggle('done');
+      await saveAll();
+      renderMyScore();
+      renderTeamBoard();
+      renderHeroStats();
+      if (t.type === 'sleep_tier') {
+        reRenderTask(t.id);
+      } else {
+        updateTaskProgress(t.id);
+      }
+    });
+  });
+
+  // Counter buttons
+  card.querySelectorAll('[data-counter]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!currentUser) {
+        alert('請先選擇身分');
+        return;
+      }
+      const tid = btn.dataset.counter;
+      const delta = parseInt(btn.dataset.delta);
+      const key = 'n_' + tid;
+      const cur = allData[currentUser][key] || 0;
+      const newVal = Math.max(0, cur + delta);
+      allData[currentUser][key] = newVal;
+      await saveAll();
+      renderMyScore();
+      renderTeamBoard();
+      renderHeroStats();
+      // Re-render this task to update tiers
+      reRenderTask(t.id);
+    });
+  });
+
+  // Counter inputs
+  card.querySelectorAll('[data-counter-input]').forEach(input => {
+    input.addEventListener('change', async (e) => {
+      e.stopPropagation();
+      if (!currentUser) {
+        alert('請先選擇身分');
+        input.value = 0;
+        return;
+      }
+      const tid = input.dataset.counterInput;
+      const val = parseFloat(input.value) || 0;
+      allData[currentUser]['n_' + tid] = val;
+      await saveAll();
+      renderMyScore();
+      renderTeamBoard();
+      renderHeroStats();
+      reRenderTask(t.id);
+    });
+    input.addEventListener('click', e => e.stopPropagation());
+  });
+
+  return card;
+}
+
+function updateTaskProgress(taskId) {
+  // For checklist tasks, just update progress text
+  const card = document.querySelector(`[data-task-id="${taskId}"]`);
+  if (!card) return;
+  const t = findTask(taskId);
+  if (!t) return;
+  const data = allData[currentUser] || {};
+  let progress = '';
+  if (t.type === 'checklist') {
+    const done = t.items.filter(i => data['c_' + i.id]).length;
+    progress = `${done}<small>/${t.items.length}</small>`;
+  } else if (t.type === 'tier') {
+    const done = t.tiers.filter(ti => data['c_' + ti.id]).length;
+    progress = `${done}<small>/${t.tiers.length}</small>`;
+  }
+  if (progress) card.querySelector('.task-progress').innerHTML = progress;
+}
+
+function reRenderTask(taskId) {
+  const t = findTask(taskId);
+  if (!t) return;
+  const card = document.querySelector(`[data-task-id="${taskId}"]`);
+  if (!card) return;
+  const wasOpen = card.classList.contains('open');
+  const newCard = renderTask(t);
+  if (wasOpen) newCard.classList.add('open');
+  card.replaceWith(newCard);
+}
+
+function findTask(id) {
+  for (const cat of CATEGORIES) {
+    for (const t of cat.tasks) {
+      if (t.id === id) return t;
+    }
+  }
+  return null;
+}
+
+// ============ INIT ============
+async function init() {
+  await loadAll();
+
+  // Restore last user from URL hash or localStorage-equivalent
+  const hash = window.location.hash.replace('#', '');
+  if (hash && MEMBERS.find(m => m.id === hash)) {
+    currentUser = hash;
+    document.getElementById('userSelect').value = hash;
+  }
+
+  document.getElementById('userSelect').addEventListener('change', (e) => {
+    currentUser = e.target.value;
+    window.location.hash = currentUser;
+    renderTasks();
+    renderTeamBoard();
+    renderMyScore();
+    renderHeroStats();
+  });
+
+  renderTasks();
+  renderTeamBoard();
+  renderMyScore();
+  renderHeroStats();
+
+  // Auto-refresh team board every 15s to pick up changes from other members
+  setInterval(async () => {
+    if (savePending) return; // Don't overwrite local changes that haven't saved yet
+    await loadAll();
+    renderTeamBoard();
+    renderMyScore();
+    renderHeroStats();
+    // Re-render tasks panel so any updates from others show through
+    renderTasks();
+  }, 15000);
+}
+
+init();
+</script>
+</body>
+</html>
