@@ -566,17 +566,39 @@
     padding-top: 24px;
     border-top: 1px solid var(--mist);
     text-align: center;
-    font-size: 11px;
-    color: var(--moss-light);
-    letter-spacing: 0.08em;
   }
-  footer .quote {
+  footer .brand-line {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+    color: var(--moss-deep);
+  }
+  footer .elandia {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 16px;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 0.25em;
+    color: var(--clay);
+  }
+  footer .cn {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.15em;
     color: var(--moss-deep);
-    margin-bottom: 12px;
-    letter-spacing: 0.02em;
+    position: relative;
+    padding-left: 14px;
+  }
+  footer .cn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 14px;
+    background: var(--moss-light);
   }
 
   /* SYNC INDICATOR */
@@ -683,8 +705,7 @@
   <div id="tasksContainer"></div>
 
   <footer>
-    <div class="quote">"Small steps, sustained — that is the orchid's way."</div>
-    <div>蘭境挑戰 · 12週身心養成 · 資料即時同步</div>
+    <div class="brand-line"><span class="elandia">ELANDIA</span><span class="cn">蘭境挑戰</span></div>
   </footer>
 
 </div>
